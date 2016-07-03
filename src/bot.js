@@ -11,9 +11,6 @@ bot.started((payload) => {
 });
 
 
-let supportMobileReddit = (msg) => {
-};
-
 let slackPost = (channel, text) => {
   slack.chat.postMessage({
     token: config('SLACK_TOKEN'),
@@ -33,9 +30,10 @@ let slackPost = (channel, text) => {
 bot.message((msg) => {
   if (!msg.user) return;
   if (msg.user == this.self.id) return;
-    console.log({msg: msg, me: this.self});
-  if (msg.text.match(/www.reddit.com/igm)) {
-      slackPost(msg.channel, msg.text);
+  // console.log({msg: msg, me: this.self});
+  if (msg.text.match(/https:\/\/www\.reddit\.com/igm)) {
+      let replaced = msg.text.replace(/https:\/\/www\.reddit\.com/, 'https://m.reddit.com');
+      slackPost(msg.channel, replaced);
       return;
   }
 
