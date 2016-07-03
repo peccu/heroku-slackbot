@@ -10,16 +10,17 @@ bot.started((payload) => {
   this.self = payload.self;
 });
 
-bot.message((msg) => {
-  if (!msg.user) return;
-  if (!_.includes(msg.text.match(/<@([A-Z0-9])+>/igm), `<@${this.self.id}>`)) return;
 
+let supportMobileReddit = (msg) => {
+};
+
+let slackPost = (channel, text) => {
   slack.chat.postMessage({
     token: config('SLACK_TOKEN'),
     icon_emoji: config('ICON_EMOJI'),
-    channel: msg.channel,
+    channel: channel,
     username: 'Starbot',
-    text: `beep boop: I hear you loud and clear!"`
+    text: text
   }, (err, data) => {
     if (err) throw err;
 
@@ -27,6 +28,17 @@ bot.message((msg) => {
 
     console.log(`🤖  beep boop: I responded with "${txt}"`);
   });
+};
+
+bot.message((msg) => {
+  if (msg.text.match(/www.reddit.com/igm)) {
+      slackPost(msg.channel, msg.text);
+  }
+
+  if (!msg.user) return;
+  if (!_.includes(msg.text.match(/<@([A-Z0-9])+>/igm), `<@${this.self.id}>`)) return;
+
+  slackPost(msg.channel, `beep boop: I hear you loud and clear!"`);
 });
 
 module.exports = bot;
