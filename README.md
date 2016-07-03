@@ -1,3 +1,5 @@
+peccu modified: This bot replace `https://www.reddit.com` to `https://m.reddit.com` and post for iOS Safari.
+
 # 🌟 Starbot
 
 ![Starbot](https://heroku-www-files.s3.amazonaws.com/starbot/starbot-banner.png)
