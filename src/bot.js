@@ -31,11 +31,14 @@ let slackPost = (channel, text) => {
 };
 
 bot.message((msg) => {
+  if (!msg.user) return;
+  if (msg.user == this.self.id) return;
+    console.log({msg: msg, me: this.self});
   if (msg.text.match(/www.reddit.com/igm)) {
       slackPost(msg.channel, msg.text);
+      return;
   }
 
-  if (!msg.user) return;
   if (!_.includes(msg.text.match(/<@([A-Z0-9])+>/igm), `<@${this.self.id}>`)) return;
 
   slackPost(msg.channel, `beep boop: I hear you loud and clear!"`);
